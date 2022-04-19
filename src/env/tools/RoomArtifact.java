@@ -15,6 +15,16 @@ public class RoomArtifact extends Artifact {
     if(prop.booleanValue() == true){
       failed("Room already bright");
     }
+    switch (alarmType) {
+      case "artificial_light":
+        // Handle turning on of lamp
+        break;
+      case "natural_light":
+        // Handle raising of blinds
+        break;
+      default:
+        break;
+    }
     prop.updateValue(true);
     signal("roomBright", prop.booleanValue(), agent, alarmType);
   }
