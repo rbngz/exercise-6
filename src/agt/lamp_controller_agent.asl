@@ -26,8 +26,21 @@ available_offer(wake_up(maria), artificial_light).
 +cfp(Task)[source(Agent)] :
   available_offer(Task, Offer)
 <-
-  .print("Received CALL FOR PROPOSAL for task ", Task, " from ", Agent).
+  .print("Received CALL FOR PROPOSAL for task ", Task, " from ", Agent, " offer ", Offer);
+  .send(Agent, tell, offer(Offer)).
 
++accept_proposal(AlarmType)[source(Agent)] : true <-
+  .print("Accept Proposal message received from ", Agent, " for alarm type ", AlarmType);
+  makeArtifact("roomArtifact", "tools.RoomArtifact", [], RoomArtifact);
+  focus(RoomArtifact);
+  increaseLight(Agent, AlarmType).
+
++roomBright(Boolean, Agent, AlarmType)[artifact_name(Id, RoomArtifact)]: 
+AlarmType == "artificial_light" &
+available_offer(Task, artificial_light) <-
+  .print("Room brightness status has been changed to ", Boolean, " from Alarm Type: ", AlarmType);
+  .print("Informing agent ", Agent, " of updated status for task ", Task);
+  .send(Agent, tell, informDone(Task)).
 
 /* Additional behaviors */
 { include("$jacamoJar/templates/common-cartago.asl") }

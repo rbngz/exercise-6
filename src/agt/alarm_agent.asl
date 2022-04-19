@@ -50,7 +50,9 @@ best_alarm_type(AlarmType) :-
   to the agent that proposed an offer with the best alarm type.
 */
 @select_bid
-+!select_bid : false <-
++!select_bid : best_alarm_type(AlarmType) & offer(AlarmType)[source(Agent)] <-
+  .print("Selecting bid for Alarm Type: ", AlarmType, " | From agent: ", Agent);
+  .send(Agent, tell, accept_proposal(AlarmType));
 
   // After communicating with the agent that sent the best proposal, the agent
   // waits for 5 sec.
